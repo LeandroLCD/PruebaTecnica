@@ -126,6 +126,7 @@ fun LoadingScreen() {
             progress = progress,
             modifier = Modifier.fillMaxSize()
         )
+
     }
 
 }
