@@ -151,7 +151,7 @@ fun LoadingScreen() {
 @Composable
 fun ErrorScreen(message: String) {
     val activity = LocalContext.current as Activity
-    Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(Modifier.fillMaxSize().padding(horizontal = 28.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Image(
             painter = painterResource(id = R.drawable.ic_error),
             contentDescription = "Image Error",
