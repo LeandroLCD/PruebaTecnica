@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.leandrolcd.pruebatecnica.ui.activate.ActivationScreen
+import com.leandrolcd.pruebatecnica.ui.menu.MenuScreen
 import com.leandrolcd.pruebatecnica.ui.start.StartScreen
 import com.leandrolcd.pruebatecnica.ui.theme.PruebaTecnicaTheme
 import com.leandrolcd.pruebatecnica.ui.utilities.Routes
@@ -46,6 +47,9 @@ fun OnRegisterRoutes() {
         }
         composable(route = Routes.ScreenActivation.route) {
             ActivationScreen(navigationController)
+        }
+        composable(route = Routes.ScreenMenu.route) {
+            MenuScreen(navigationController)
         }
     }
 }

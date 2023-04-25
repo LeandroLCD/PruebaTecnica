@@ -1,14 +1,38 @@
 package com.leandrolcd.pruebatecnica.core.networkmodule
 
-import okhttp3.Interceptor
-import okhttp3.Response
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import javax.inject.Qualifier
 
-class HeaderInterceptor: Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder()
-            .addHeader("Accept", "application/json")
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+
+    @AcceptOkHttpClient
+    @Provides
+    fun provideAcceptOkHttpClient(
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
             .build()
+    }
 
-        return  chain.proceed(request)
+    @ApiInterceptorOkHttpClient
+    @Provides
+    fun provideOtherInterceptorOkHttpClient(
+        apiInterceptor: ApiInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(apiInterceptor)
+            .build()
     }
 }
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AcceptOkHttpClient
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ApiInterceptorOkHttpClient
