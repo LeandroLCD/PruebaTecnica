@@ -54,7 +54,7 @@ lateinit var navHostController: NavHostController
     }
 
     private fun enabledButton(host: String, _serial: String): Boolean =
-        host.isEmpty() && _serial.isEmpty()
+        host.isNotEmpty() && _serial.isNotEmpty()
 
     fun activatePos(hostName: String, serial: String) {
         viewModelScope.launch {
@@ -62,7 +62,8 @@ lateinit var navHostController: NavHostController
                 activateUseCase(DeviceInfo(hostName, serial))
             }
             if(uiStatus.value is ActivateUiState.Success){
-
+                navHostController.popBackStack()
+                navHostController.navigate(Routes.ScreenMenu.route)
             }
             Log.d("TAG", "activatePos: ${uiStatus.value}")
 

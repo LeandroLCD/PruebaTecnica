@@ -9,6 +9,8 @@ import com.leandrolcd.pruebatecnica.ui.activate.LoadingScreen
 import com.leandrolcd.pruebatecnica.ui.utilities.Routes
 import kotlinx.coroutines.delay
 
+
+
 @Composable
 fun StartScreen(navController: NavHostController, viewModel: ActivateViewModel = hiltViewModel()) {
     LaunchedEffect(true){
