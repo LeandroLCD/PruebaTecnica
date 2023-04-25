@@ -24,13 +24,15 @@ import com.leandrolcd.pruebatecnica.ui.activate.state.ActivateUiState
 
 @Composable
 fun ActivationScreen( navHostController: NavHostController,viewModel: ActivateViewModel = hiltViewModel()) {
-    viewModel.navHostController = navHostController
+
     when (val status = viewModel.uiStatus.value) {
         is ActivateUiState.Error -> ErrorScreen(status.message)
         ActivateUiState.Loaded -> {
             ActivateContent(viewModel)
         }
-        ActivateUiState.Loading -> LoadingScreen()
+        ActivateUiState.Loading -> {
+            LoadingScreen()
+        }
         is ActivateUiState.Success -> {
 
         }

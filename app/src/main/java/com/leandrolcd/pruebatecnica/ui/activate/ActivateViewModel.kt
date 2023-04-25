@@ -26,8 +26,8 @@ class ActivateViewModel @Inject constructor(
     }
 
 
+lateinit var navHostController: NavHostController
 
-    lateinit var navHostController: NavHostController
 
     var uiStatus = mutableStateOf<ActivateUiState>(ActivateUiState.Loaded)
         private set
@@ -42,7 +42,6 @@ class ActivateViewModel @Inject constructor(
         private set
 
     init {
-        checkedActivation()
         serial.value = "35ab1234567890"
         hostName.value = "TerminalBarra1"
         isButtonEnabled.value = true
@@ -62,16 +61,22 @@ class ActivateViewModel @Inject constructor(
           uiStatus.value =  makeNetworkCall(dispatcher) {
                 activateUseCase(DeviceInfo(hostName, serial))
             }
+            if(uiStatus.value is ActivateUiState.Success){
+
+            }
             Log.d("TAG", "activatePos: ${uiStatus.value}")
 
         }
 
     }
 
-    private fun checkedActivation() {
+    fun checkedActivation(navHostController: NavHostController) {
+        this@ActivateViewModel.navHostController = navHostController
         val activation = activateUseCase.getActivationData()
+        Log.d("TAG", "checkedActivation: $activation")
         if (activation != null) {
             uiStatus.value = ActivateUiState.Success(activation)
+            navHostController.popBackStack()
             navHostController.navigate(Routes.ScreenMenu.route)
         }
     }
