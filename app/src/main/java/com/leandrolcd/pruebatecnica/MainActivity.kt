@@ -10,8 +10,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.leandrolcd.pruebatecnica.ui.activate.ActivationScreen
+import com.leandrolcd.pruebatecnica.ui.start.StartScreen
 import com.leandrolcd.pruebatecnica.ui.theme.PruebaTecnicaTheme
+import com.leandrolcd.pruebatecnica.ui.utilities.Routes
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +30,27 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    OnRegisterRoutes()
                 }
             }
         }
     }
 }
+@Composable
+fun OnRegisterRoutes() {
+    val navigationController = rememberNavController()
+
+    NavHost(navController = navigationController, startDestination = Routes.ScreenLoading.route) {
+        composable(route = Routes.ScreenLoading.route) {
+            StartScreen(navigationController)
+        }
+        composable(route = Routes.ScreenActivation.route) {
+            ActivationScreen(navigationController)
+        }
+    }
+}
+
+
 
 @Composable
 fun Greeting(name: String) {
