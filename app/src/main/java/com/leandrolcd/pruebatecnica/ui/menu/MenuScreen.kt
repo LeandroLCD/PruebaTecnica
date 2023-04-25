@@ -1,6 +1,5 @@
 package com.leandrolcd.pruebatecnica.ui.menu
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,15 +25,17 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.SubcomposeAsyncImage
+import com.leandrolcd.pruebatecnica.ui.activate.ErrorScreen
 import com.leandrolcd.pruebatecnica.ui.activate.LoadingScreen
 import com.leandrolcd.pruebatecnica.ui.menu.models.Category
 import com.leandrolcd.pruebatecnica.ui.menu.states.MenuUiState
+import java.text.DecimalFormat
 
 @Composable
 fun MenuScreen(navHostController: NavHostController, viewModel: MenuViewModel = hiltViewModel()) {
     when (val status = viewModel.uiState.value) {
         is MenuUiState.Error -> {
-            Log.d("TAG", "MenuScreenError: $status ")
+            ErrorScreen(status.message)
         }
         MenuUiState.Loading -> {
             LoadingScreen()
@@ -63,7 +64,7 @@ fun MenuContent(category: List<Category>) {
 @Composable
 fun ItemCategory(category: Category) {
 
-    var isExpanderCategory = remember {
+    val isExpanderCategory = remember {
         mutableStateOf(false)
     }
     CategoryItem(
@@ -121,7 +122,7 @@ fun ProductItems(category: Category) {
     ) {
         if (category.products != null) {
             for (it in category.products!!) {
-                var isExpanderProduct = remember {
+                val isExpanderProduct = remember {
                     mutableStateOf(false)
                 }
                 Row(
@@ -162,7 +163,8 @@ fun ProductItems(category: Category) {
                         ) {
                             Text(text = it.name, fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.weight(1f))
-                            Text(text = "$ ${it.id}", fontWeight = FontWeight.Bold)
+                            val money =  DecimalFormat("#,###.00")
+                            Text(text = "$ ${money.format(it.id.toDouble())}", fontWeight = FontWeight.Bold)
 
                         }
                         Row(
